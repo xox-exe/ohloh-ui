@@ -1,0 +1,22 @@
+.modal-dialog{ role: 'document' }
+  .modal-content
+    .modal-header
+      %button.close{ data: { dismiss: 'modal' }, aria: { label: 'Close' } }
+        &times;
+      %h3.modal-title Search Project
+    .modal-body
+      = form_tag(search_projects_path, method: :get, remote: true, class: 'search_project') do
+        .pull-left
+          = text_field_tag :query
+          = hidden_field_tag :repo_url, params[:repo_url]
+          = submit_tag 'Search'
+        .clearfix
+      - if @projects
+        - @projects.each do |project|
+          .well.no_padding{ style: 'min-height: 30px;' }
+            .pull-left{ style: 'width: 70%' }
+              %p
+                %strong= project.name
+            .pull-right
+              = link_to 'Add', new_project_enlistment_path(project, repo_type: "GitRepository", repo_url: params[:repo_url]), class: 'btn btn-mini btn-primary'
+ 

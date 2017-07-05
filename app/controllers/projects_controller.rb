@@ -58,6 +58,11 @@ class ProjectsController < ApplicationController
     @similar_by_stacks = @project.related_by_stacks(10)
   end
 
+  def search
+    @projects = find_projects_by_params.page(page_param).per_page(10).to_a  if params[:query].present?
+    render nothing: true unless request.xhr?
+  end
+
   private
 
   def project_params

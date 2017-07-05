@@ -9,7 +9,7 @@
     .controls
       .default-url-tags
         %label.control-label.required= t('.enter_url')
-        = f.text_field :url, class: 'col-md-7', value: params[:repository].try(:[], :url), name: 'repository[url]'
+        = f.text_field :url, class: 'col-md-7', value: params[:repository].try(:[], :url) || f.object.url, name: 'repository[url]'
         - error_tag @repository, :url
 
       .github.scm_info{ style: 'display: none;' }

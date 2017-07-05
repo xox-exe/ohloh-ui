@@ -18,7 +18,7 @@ class EnlistmentsController < SettingsController
   end
 
   def new
-    @repository = Repository.new
+    @repository = Repository.new(type: params[:repo_type], url: params[:repo_url])
     @code_location = CodeLocation.new
     @enlistment = Enlistment.new
   end

@@ -56,7 +56,7 @@ class AccountsController < ApplicationController
 
   def github_repos
     @user = ['Priya5', 'rapbhan', 'santhanakarthikeyan', 'notalex', 'jebingeosil', 'ram-imaginea', 'gopalcs1988'].sample
-    github = Github.new
+    github = Github.new(client_id: ENV['CLIENT_ID'], client_secret: ENV['CLIENT_SECRET'])
     @github_repos = github.repos.list(user: @user)
   end
 

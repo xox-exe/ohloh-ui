@@ -1,20 +1,24 @@
 %h3.margin_bottom_15 Github Repositories of #{@user}
 - @github_repos.each do |repo|
   .well.no_padding
-    .pull-left
+    .pull-left{ style: 'width: 70%' }
       %p
         %strong Name:
         = repo.name
       %p
-        %strong Url:
+        %strong SSH Url:
         = link_to repo.ssh_url, repo.html_url, target: '_blank'
       %p
         %strong Description:
         = repo.description
     .pull-right
       - if active_code_location(repo.ssh_url)
-        %p Already active
+        %p Active Code Location
       - else
         = link_to 'Create New Project', new_project_path(repo_url: repo.html_url), class: 'btn btn-mini btn-primary'
-        = link_to 'Add to Existing Project', '#', class: 'btn btn-mini btn-primary'
+        = link_to 'Add to Existing Project', search_projects_path(repo_url: repo.ssh_url), remote: true, class: 'btn btn-mini btn-primary',
+                    data: { toggle: 'modal', target: '#github-repos.modal', keyboard: true }
     .clearfix
+
+.modal.fade#github-repos{ role: 'dialog', tabindex: -1 }
+  .modal-dialog{ role: 'document' }
