@@ -1,0 +1,20 @@
+%h3.margin_bottom_15 Github Repositories of #{@user}
+- @github_repos.each do |repo|
+  .well.no_padding
+    .pull-left
+      %p
+        %strong Name:
+        = repo.name
+      %p
+        %strong Url:
+        = link_to repo.ssh_url, repo.html_url, target: '_blank'
+      %p
+        %strong Description:
+        = repo.description
+    .pull-right
+      - if active_code_location(repo.ssh_url)
+        %p Already active
+      - else
+        = link_to 'Create New Project', new_project_path(repo_url: repo.html_url), class: 'btn btn-mini btn-primary'
+        = link_to 'Add to Existing Project', '#', class: 'btn btn-mini btn-primary'
+    .clearfix

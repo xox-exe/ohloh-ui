@@ -12,7 +12,7 @@
       .col-md-9
         %label= t('.codelocation_label')
       .col-md-9
-        %input.span9.field{ name: 'codelocation', type: 'text' }
+        %input.span9.field{ name: 'codelocation', type: 'text', value: params[:repo_url] }
       .col-md-9
         = t('.examples')
         .inset

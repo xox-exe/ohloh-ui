@@ -98,6 +98,7 @@ Rails.application.routes.draw do
 
     collection do
       get :unsubscribe_emails
+      get :github_repos
     end
 
     resources :charts, only: [], module: :accounts do

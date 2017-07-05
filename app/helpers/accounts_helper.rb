@@ -15,6 +15,14 @@ module AccountsHelper
     t('accounts.unsubscribe_emails.privacy_html', privacy_settings_link: privacy_settings_link(account))
   end
 
+  def active_code_location(url)
+    /^git@github.com:(.+)\.git/ =~ url
+
+    urls = ["'git://github.com/#{$1}'", "'git://github.com/#{$1}.git'"].join(',')
+
+    Repository.where("trim(trailing '/' from url) in (#{urls})").count > 0
+  end
+
   private
 
   def privacy_settings_link(account)

@@ -54,6 +54,12 @@ class AccountsController < ApplicationController
     Account::Subscription.new(@account).unsubscribe(@notification_type) if @status
   end
 
+  def github_repos
+    @user = ['Priya5', 'rapbhan', 'santhanakarthikeyan', 'notalex', 'jebingeosil', 'ram-imaginea', 'gopalcs1988'].sample
+    github = Github.new
+    @github_repos = github.repos.list(user: @user)
+  end
+
   private
 
   def find_claimed_people

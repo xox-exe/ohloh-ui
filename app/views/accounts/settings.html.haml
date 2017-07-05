@@ -30,3 +30,9 @@
         %span.pull-left
           %a.account_settings_icon.settings_privacy{ href: edit_account_privacy_account_path }
         %span= t('.email_settings')
+    .account_setting_row
+      .pull-left.span5.settings_specifications
+        %h4= link_to 'Github Repositories', github_repos_accounts_path, class: 'strong'
+        %span.pull-left
+          %a.account_settings_icon.settings_api_keys{ href: github_repos_accounts_path }
+        %span= 'User public repositories'
