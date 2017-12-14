@@ -10,13 +10,17 @@ en:
       register_today: "Register today"
       register_today_cta: "and start building your FOSS profile &mdash; it's free!"
       forgot_password: "Forgot Password"
-      resend_activation_email: "Resend Activation Email"
+      resend_activation_email: "Resend Activation"
     sign_in:
-      log_in_to_open_hub: "Log in to Open Hub"
+      log_in_to_open_hub: "Log in with Email & Password"
       login_or_email: "Login or Email"
       password: "Password"
       remember_me: "Remember Me"
       log_in: "Log In"
+      resend_activation_email: "Resend Activation"
+      forgot_password: "Forgot Password?"
+    sign_in_linked_accounts:
+      log_in_linked_accounts: 'Login in with Linked Accounts'
     create:
       success: "Logged in successfully"
       error: "Invalid Login Credentials"

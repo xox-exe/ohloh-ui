@@ -13,9 +13,5 @@
       %a.btn.btn-success{ href: new_registration_path(invite: params[:invite]) }= t('.register_today')
       != t('.register_today_cta')
   .col-sm-5
+    = render 'sessions/sign_in_linked_accounts'
     = render 'sessions/sign_in'
-    .inset
-      %p
-        %a.command{ href: new_password_path }= t('.forgot_password')
-        %br
-        %a.command{ href: new_activation_resend_path }= t('.resend_activation_email')

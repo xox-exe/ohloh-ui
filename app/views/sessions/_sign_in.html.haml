@@ -1,7 +1,7 @@
 - @login = OpenStruct.new
 = form_for(@login, as: :login, url: sessions_path, html: { method: :post, class: 'well form-horizontal' }) do |f|
   %fieldset
-    %legend= t('.log_in_to_open_hub')
+    %h3{style: 'margin: 0 0 20 0'}= t('.log_in_to_open_hub')
     .control-group
       .input-prepend
         %span.add-on
@@ -15,5 +15,11 @@
       %label.checkbox{ style: 'padding-left: 0px;' }
         = f.check_box :remember_me
         = t('.remember_me')
-    .actions
-      %input.btn.btn-primary{ type: 'submit', value: t('.log_in') }
+    .actions.row
+      .col-md-3
+        %input.btn.btn-primary{ type: 'submit', value: t('.log_in') }
+      .col-md-9.margin_top_10
+        %a.command{ href: new_password_path }= t('.forgot_password')
+        |
+        %a.command{ href: new_activation_resend_path }= t('.resend_activation_email')
+

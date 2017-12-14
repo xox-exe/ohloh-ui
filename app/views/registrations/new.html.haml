@@ -6,9 +6,10 @@
     = link_to t('.login_text'), new_session_path, class: 'btn btn-success'
     != t('.login_link_description')
 
-.col-md-5.no_right_padding
+.col-md-5.no_right_padding.margin_top_10
   - if flash[:message]
     %p= flash[:message]
   - unless @account.invite_code.blank?
     %p= t('.invite_code_message')
+  = render 'sessions/sign_in_linked_accounts'
   = render 'fields'
