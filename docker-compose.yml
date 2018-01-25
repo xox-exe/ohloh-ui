@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  ohloh:
+    container_name: ui_db
+    build:
+      context: .
+      dockerfile: ./docker/ui.postgres
+    ports:
+      - '5432:5432'
+    hostname: ohloh
+    volumes:
+      - ~/Docker/pg_data/oui:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: openhub_user
+      POSTGRES_PASSWORD: openhub_password
+      ENCODING: SQL_ASCII
+
+  fis:
+    container_name: fis_db
+    build:
+      context: .
+      dockerfile: ./docker/fis.postgres
+    ports:
+      - '5433:5432'
+    hostname: fis
+    volumes:
+      - ~/Docker/pg_data/fis:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: fis_user
+      POSTGRES_PASSWORD: fis_password
+      ENCODING: SQL_ASCII
+
+  web:
+    image: openhub:latest
+    volumes:
+      - .:/var/local/openhub/
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    container_name: web
+    hostname: ohloh-ui
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - ohloh
+      - fis
+
+  fisbot:
+    image: fisbot:latest
+    container_name: fisbot
+    volumes:
+      - /Users/Paddy/Vagrant/projects/fisbot/.:/var/local/fisbot/
+      - /Users/Paddy/Docker/oh/.:/var/local/
+    hostname: fisbot.dev
+    command: bundle exec rails s -p 3001 -b '0.0.0.0'
+    ports:
+      - '3001:3001'
+    depends_on:
+      - ohloh
+      - fis
+
+  analysis:
+    image: ohloh:latest
+    volumes:
+      - /Users/Paddy/Vagrant/projects/ohloh/.:/var/local/ohloh/
+    hostname: analysis.dev
+    depends_on:
+      - ohloh
+      - fis
