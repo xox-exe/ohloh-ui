@@ -43,8 +43,11 @@ RUN sudo apt-get install --yes --force-yes postgresql-client-9.6
 RUN sudo apt-get clean
 
 RUN mkdir -p $APP_HOME
-ADD . $APP_HOME
+#ADD . $APP_HOME
+COPY Gemfile Gemfile.lock $APP_HOME/
 RUN bundle install
+COPY . $APP_HOME
+RUN bundle exec rake SECRET_KEY_BASE=paddy assets:precompile
 
 # Set the container user to 'serv-deployer'
 USER serv-deployer
