@@ -1,19 +1,20 @@
 version: '3'
 
 services:
-  ohloh:
-    container_name: ui_db
+  db:
+    image: db:latest
+    container_name: db
     build:
       context: .
       dockerfile: ./docker/ui.postgres
     ports:
       - '5432:5432'
-    hostname: ohloh
+    hostname: db
     volumes:
-      - ~/Docker/pg_data/oui:/var/lib/postgresql/data
+      - ~/Docker/pg_data/:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: openhub_user
-      POSTGRES_PASSWORD: openhub_password
+      POSTGRES_USER: paddy
+      POSTGRES_PASSWORD: paddy
       ENCODING: SQL_ASCII
 
   fis:
@@ -48,18 +49,17 @@ services:
       - fis
 
   fisbot:
-    image: fisbot:latest
+    image: fisbot:lastest
     container_name: fisbot
     volumes:
-      - /Users/Paddy/Vagrant/projects/fisbot/.:/var/local/fisbot/
-      - /Users/Paddy/Docker/oh/.:/var/local/
+      - ~/projects/bd/fisbot/.:/var/local/fisbot/
+      - ~/Docker/oh/.:/var/local/
     hostname: fisbot.dev
     command: bundle exec rails s -p 3001 -b '0.0.0.0'
     ports:
       - '3001:3001'
     depends_on:
-      - ohloh
-      - fis
+      - db
 
   analysis:
     image: ohloh:latest
