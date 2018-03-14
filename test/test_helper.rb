@@ -13,8 +13,10 @@ require 'mocha/mini_test'
 require 'dotenv'
 require 'test_helpers/setup_hamster_account'
 require 'test_helpers/create_forges'
+require 'test_helpers/api_factories'
 require 'sidekiq/testing'
 require 'webmock/minitest'
+require 'test_helpers/web_mocker'
 require 'clearance/test_unit'
 
 Sidekiq::Testing.fake!
@@ -123,6 +125,12 @@ class ActiveSupport::TestCase
         analysis = create(:analysis, oldest_code_set_time: Date.current - value.days, project: project)
         project.update(best_analysis: analysis)
       end
+    end
+  end
+
+  def stub_code_location_subscription_api_call(method = 'create')
+    VCR.use_cassette("#{method}_code_location_subscription", match_requests_on: [:host, :path, :method]) do
+      yield
     end
   end
 

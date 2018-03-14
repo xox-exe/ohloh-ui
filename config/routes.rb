@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   end
 
   get 'admin/comments' => redirect('/404')
-  get 'admin', to: redirect('admin_not_found')
-  get 'admin/dashboard', to: redirect('dashboard_not_found')
+  get 'admin', to: 'oh_admin/dashboard#index'
+  get 'admin/dashboard', to: 'oh_admin/dashboard#index'
 
   root to: 'home#index', defaults: { format: 'html' }
 
@@ -442,16 +442,6 @@ Rails.application.routes.draw do
     resources :organizations do
       resources :jobs, as: :job
     end
-    resources :repositories
-
-    resources :code_locations do
-      resources :jobs
-      resources :code_sets
-      resources :sloc_sets
-      resources :clumps
-      resources :slave_logs
-      resources :complete_jobs
-    end
 
     resources :accounts do
       resources :vita_jobs do
@@ -462,6 +452,14 @@ Rails.application.routes.draw do
     end
   end
   resources :feedbacks
+
+  namespace :oh_admin do
+    root to: 'dashboard#index'
+    resources :projects do
+      resources :jobs do
+      end
+    end
+  end
 
   get 'sitemap_index.xml', controller: 'sitemap', action: 'index', format: 'xml'
   get 'sitemaps/:ctrl/:page.xml', controller: 'sitemap', action: 'show', format: 'xml'
