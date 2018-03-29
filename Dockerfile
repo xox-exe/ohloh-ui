@@ -10,7 +10,7 @@ RUN adduser --disabled-password --gecos '' serv-deployer \
     && adduser serv-deployer sudo \
     && echo '%sudo ALL=(ALL:ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 16126D3A3E5C1192
+RUN sudo apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 16126D3A3E5C1192
 
 RUN sudo apt-get update
 
@@ -47,7 +47,7 @@ RUN mkdir -p $APP_HOME
 COPY Gemfile Gemfile.lock $APP_HOME/
 RUN bundle install
 COPY . $APP_HOME
-RUN bundle exec rake SECRET_KEY_BASE=paddy assets:precompile
+RUN bundle exec rake assets:precompile
 
 # Set the container user to 'serv-deployer'
 USER serv-deployer

@@ -13,23 +13,8 @@ services:
     volumes:
       - ~/Docker/pg_data/:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: paddy
-      POSTGRES_PASSWORD: paddy
-      ENCODING: SQL_ASCII
-
-  fis:
-    container_name: fis_db
-    build:
-      context: .
-      dockerfile: ./docker/fis.postgres
-    ports:
-      - '5433:5432'
-    hostname: fis
-    volumes:
-      - ~/Docker/pg_data/fis:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: fis_user
-      POSTGRES_PASSWORD: fis_password
+      POSTGRES_USER: openhub_user
+      POSTGRES_PASSWORD: openhub_password
       ENCODING: SQL_ASCII
 
   web:
@@ -45,8 +30,7 @@ services:
     tty: true
     stdin_open: true
     depends_on:
-      - ohloh
-      - fis
+      - db
 
   fisbot:
     image: fisbot:lastest
@@ -64,8 +48,7 @@ services:
   analysis:
     image: ohloh:latest
     volumes:
-      - /Users/Paddy/Vagrant/projects/ohloh/.:/var/local/ohloh/
+      - ~/projects/bd/fisbot/ohloh/.:/var/local/ohloh/
     hostname: analysis.dev
     depends_on:
-      - ohloh
-      - fis
+      - db
