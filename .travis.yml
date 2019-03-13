@@ -1,7 +1,8 @@
+before_install:
+  - sudo apt-get install libsodium
 dist: xenial
 language: ruby
 script:
-  - sudo apt-get install libsodium
   - bundle install
   - bundle exec rake db:create
   - bundle exec rake db:structure:load
