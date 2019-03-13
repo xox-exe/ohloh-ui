@@ -1,5 +1,5 @@
 before_install:
-  - sudo apt-get install libsodium
+  - sudo apt-get install libsodium18 libsodium-dev
 dist: xenial
 language: ruby
 script:
