@@ -2,6 +2,8 @@ before_install:
   - sudo apt-get install libsodium18 libsodium-dev
 dist: xenial
 language: ruby
+services:
+  - postgresql
 script:
   - bundle install
   - bundle exec rake db:create
