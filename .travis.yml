@@ -4,6 +4,8 @@ dist: xenial
 language: ruby
 services:
   - postgresql
+before_script:
+  - psql -c "CREATE USER openhub_user WITH PASSWORD 'openhub_password';" -U postgres
 script:
   - bundle install
   - bundle exec rake db:create
