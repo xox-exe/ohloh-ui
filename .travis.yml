@@ -7,9 +7,10 @@ services:
 before_script:
   - psql -c "CREATE USER openhub_user WITH PASSWORD 'openhub_password';" -U postgres
   - psql -c "CREATE USER fis_user WITH PASSWORD 'fis_password';" -U postgres
+  - psql -c "CREATE DATABASE openhub_test WITH OWNER openhub_user;" -U postgres
+  - psql -c "CREATE DATABASE fis_test WITH OWNER fis_user ;" -U postgres
 script:
   - bundle install
-  - bundle exec rake db:create
   - bundle exec rake db:structure:load
   - bundle exec rake test
 after_success:
