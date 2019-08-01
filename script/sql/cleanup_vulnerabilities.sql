@@ -1,6 +1,6 @@
 /* This script deletes unused project_security_sets, releases, releases_vulnerabilities, and
  * vulnerabilities.
- * 
+ *
  */
 
  BEGIN;
@@ -8,19 +8,20 @@
 
  /* This inserts those pss.ids that are NOT best_project_security_sets */
  INSERT INTO unused_project_security_sets (
-     SELECT pss.id from project_security_sets pss 
-     WHERE pss.id not in (SELECT best_project_security_set_id from projects where not deleted
-                          and best_project_security_set_id is not null)
+     SELECT pss.id from project_security_sets pss
+     WHERE pss.id not in (SELECT best_project_security_set_id FROM projects
+                          WHERE best_project_security_set_id IS NOT NULL)
+     ORDER BY pss.created_at LIMIT 100000
  );
 
- /* This removes those pss.ids that are newer than the best_project_security_set from the list of 
+ /* This removes those pss.ids that are newer than the best_project_security_set from the list of
     unused project_security_sets */
 DELETE FROM unused_project_security_sets where id IN (
     select pss2.id from project_security_sets pss2
     inner join (
         select pss.project_id, pss.created_at from project_security_sets pss
-        inner join projects p on p.best_project_security_set_id = pss.id and not p.deleted            
-    ) as best_pss on pss2.project_id = best_pss.project_id 
+        inner join projects p on p.best_project_security_set_id = pss.id and not p.deleted
+    ) as best_pss on pss2.project_id = best_pss.project_id
     where pss2.created_at > best_pss.created_at
 );
 
@@ -47,10 +48,10 @@ DELETE FROM project_security_sets where id in (
     SELECT id FROM unused_project_security_sets
 );
 
+COMMIT;
+
 /* Vacuum all tables */
 VACUUM ANALYZE project_security_sets;
 VACUUM ANALYZE releases;
 VACUUM ANALYZE releases_vulnerabilities;
 VACUUM ANALYZE vulnerabilities;
-
-COMMIT;
