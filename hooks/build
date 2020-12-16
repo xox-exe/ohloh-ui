@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+docker build --build-arg GH_TOKEN=$GH_TOKEN -t $IMAGE_NAME .
